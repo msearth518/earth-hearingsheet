@@ -8,30 +8,21 @@ import {
   X,
   Plus,
   Trash2,
-  Lock, // 鍵マークのアイコンを追加
+  Lock
 } from "lucide-react";
 
 // ==========================================
-// 1. 【重要】GASで新しく発行したURLを貼り付けてください
-const GAS_WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbyPiHgh6z5E-ryEroQhAXv71yZK1U19f-aJNt-0UMIH9RL3D95iJvp4QtiIiQHlERrJ/exec";
+// 1. 【重要】GASで発行したURLを貼り付けてください
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyPiHgh6z5E-ryEroQhAXv71yZK1U19f-aJNt-0UMIH9RL3D95iJvp4QtiIiQHlERrJ/exec";
 
 // 2. 【お客様用】アプリを開くための「合言葉（パスワード）」
-const APP_PASSWORD = "earth";
+const APP_PASSWORD = "earth"; 
 
 // 3. 【裏側の鍵】GAS側と一致させる秘密の文字列
-const SECRET_TOKEN = "EarthSecret2026";
+const SECRET_TOKEN = "EarthSecret2026"; 
 // ==========================================
 
-const TABS = [
-  "ネット防犯",
-  "家電",
-  "家具",
-  "設備",
-  "外構",
-  "照明",
-  "ｽｲｯﾁ・ｺﾝｾﾝﾄ",
-];
+const TABS = ["ネット防犯", "家電", "家具", "設備", "外構", "照明", "ｽｲｯﾁ・ｺﾝｾﾝﾄ"];
 const STAFF_LIST = ["不明", "露木", "佐々木", "佐藤"];
 
 const defaultOptions = ["未選択", "新規/希望", "持込", "検討中", "不要"];
@@ -39,472 +30,110 @@ const exteriorOptions = ["未選択", "必要", "検討中", "不要"];
 
 const INITIAL_DATA = {
   ネット防犯: [
-    {
-      id: "n1",
-      name: "光回線",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "導入予定", "検討中", "導入なし"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "n2",
-      name: "ルーター・Wi-Fi機器",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "導入予定", "検討中", "導入なし"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "n3",
-      name: "インターホン（複数選択可）",
-      type: "request",
-      status: ["未選択"],
-      options: [
-        "未選択",
-        "スマホ応対可",
-        "宅配ボックス連携",
-        "防犯カメラ連携",
-        "屋外から解施錠可能",
-        "検討中",
-      ],
-      multiple: true,
-      note: "",
-    },
-    {
-      id: "n6",
-      name: "室内防犯カメラ",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "新規・希望", "持ち込み", "検討中", "不要"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "n4",
-      name: "屋外防犯カメラ",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "新規・希望", "持ち込み", "検討中", "不要"],
-      multiple: false,
-      wireType: "",
-      note: "",
-    },
-    {
-      id: "n5",
-      name: "スマートロック(電子錠)",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "玄関ドア付属品", "別途機器用意", "検討中"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "n7",
-      name: "IOT機器",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "新規・希望", "持ち込み", "検討中", "不要"],
-      multiple: false,
-      note: "",
-    },
+    { id: "n1", name: "光回線", type: "request", status: "未選択", options: ["未選択", "導入予定", "検討中", "導入なし"], multiple: false, note: "" },
+    { id: "n2", name: "ルーター・Wi-Fi機器", type: "request", status: "未選択", options: ["未選択", "導入予定", "検討中", "導入なし"], multiple: false, note: "" },
+    { id: "n3", name: "インターホン（複数選択可）", type: "request", status: ["未選択"], options: ["未選択", "スマホ応対可", "宅配ボックス連携", "防犯カメラ連携", "屋外から解施錠可能", "検討中"], multiple: true, note: "" },
+    { id: "n6", name: "室内防犯カメラ", type: "request", status: "未選択", options: ["未選択", "新規・希望", "持ち込み", "検討中", "不要"], multiple: false, note: "" },
+    { id: "n4", name: "屋外防犯カメラ", type: "request", status: "未選択", options: ["未選択", "新規・希望", "持ち込み", "検討中", "不要"], multiple: false, wireType: "", note: "" },
+    { id: "n5", name: "スマートロック(電子錠)", type: "request", status: "未選択", options: ["未選択", "玄関ドア付属品", "別途機器用意", "検討中"], multiple: false, note: "" },
+    { id: "n7", name: "IOT機器", type: "request", status: "未選択", options: ["未選択", "新規・希望", "持ち込み", "検討中", "不要"], multiple: false, note: "" },
   ],
   家電: [
     {
-      id: "e1",
-      name: "テレビ",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
+      id: "e1", name: "テレビ", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "",
       broadcasts: [],
       hdmiDevices: [
-        {
-          id: "hdmi_1",
-          name: "レコーダー",
-          model: "",
-          image: null,
-          imageName: "",
-        },
-        {
-          id: "hdmi_2",
-          name: "ゲーム機",
-          model: "",
-          image: null,
-          imageName: "",
-        },
-      ],
+        { id: "hdmi_1", name: "レコーダー", model: "", image: null, imageName: "" },
+        { id: "hdmi_2", name: "ゲーム機", model: "", image: null, imageName: "" }
+      ]
     },
-    {
-      id: "e2",
-      name: "冷蔵庫",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e3",
-      name: "冷凍庫",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e4",
-      name: "洗濯機",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e5",
-      name: "電子レンジ",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e6",
-      name: "炊飯器",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e7",
-      name: "掃除機",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e8",
-      name: "ロボット掃除機",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "e9",
-      name: "空気清浄機",
-      type: "appliance",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
+    { id: "e2", name: "冷蔵庫", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e3", name: "冷凍庫", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e4", name: "洗濯機", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e5", name: "電子レンジ", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e6", name: "炊飯器", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e7", name: "掃除機", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e8", name: "ロボット掃除機", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
+    { id: "e9", name: "空気清浄機", type: "appliance", status: "未選択", options: defaultOptions, w: "", d: "", h: "", model: "", note: "", image: null, imageName: "" },
   ],
   家具: [
-    {
-      id: "f1",
-      name: "ソファ",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "f2",
-      name: "ダイニングテーブル",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "f3",
-      name: "ダイニングチェア",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "f4",
-      name: "テレビボード",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "f5",
-      name: "ベッド",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "f6",
-      name: "デスク・学習机",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
-    {
-      id: "f7",
-      name: "収納棚・本棚",
-      type: "furniture",
-      status: "未選択",
-      options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      note: "",
-      image: null,
-      imageName: "",
-    },
+    { id: "f1", name: "ソファ", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
+    { id: "f2", name: "ダイニングテーブル", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
+    { id: "f3", name: "ダイニングチェア", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
+    { id: "f4", name: "テレビボード", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
+    { id: "f5", name: "ベッド", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
+    { id: "f6", name: "デスク・学習机", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
+    { id: "f7", name: "収納棚・本棚", type: "furniture", status: "未選択", options: defaultOptions, w: "", d: "", h: "", note: "", image: null, imageName: "" },
   ],
   設備: [
-    {
-      id: "s1",
-      name: "衣類乾燥機",
-      type: "request",
-      status: "未選択",
-      options: defaultOptions,
-      dryerType: "",
-      note: "",
-    },
-    {
-      id: "s2",
-      name: "床暖房",
-      type: "request",
-      status: "未選択",
-      options: defaultOptions,
-      note: "",
-    },
-    {
-      id: "s3",
-      name: "脱衣室暖房",
-      type: "request",
-      status: "未選択",
-      options: defaultOptions,
-      note: "",
-    },
+    { id: "s1", name: "衣類乾燥機", type: "request", status: "未選択", options: defaultOptions, dryerType: "", note: "" },
+    { id: "s2", name: "床暖房", type: "request", status: "未選択", options: defaultOptions, note: "" },
+    { id: "s3", name: "脱衣室暖房", type: "request", status: "未選択", options: defaultOptions, note: "" },
   ],
   外構: [
-    {
-      id: "g1",
-      name: "EV充電コンセント(200V)",
-      type: "request",
-      status: "未選択",
-      options: exteriorOptions,
-      note: "",
-    },
-    {
-      id: "g2",
-      name: "屋外防水コンセント",
-      type: "request",
-      status: "未選択",
-      options: exteriorOptions,
-      note: "",
-    },
-    {
-      id: "g3",
-      name: "外部水栓",
-      type: "request",
-      status: "未選択",
-      options: exteriorOptions,
-      note: "",
-    },
-    {
-      id: "g4",
-      name: "宅配ボックス",
-      type: "request",
-      status: "未選択",
-      options: exteriorOptions,
-      note: "",
-    },
+    { id: "g1", name: "EV充電コンセント(200V)", type: "request", status: "未選択", options: exteriorOptions, note: "" },
+    { id: "g2", name: "屋外防水コンセント", type: "request", status: "未選択", options: exteriorOptions, note: "" },
+    { id: "g3", name: "外部水栓", type: "request", status: "未選択", options: exteriorOptions, note: "" },
+    { id: "g4", name: "宅配ボックス", type: "request", status: "未選択", options: exteriorOptions, note: "" },
   ],
   照明: [
-    {
-      id: "l1",
-      name: "玄関",
-      type: "request",
-      status: "未選択",
-      options: [
-        "未選択",
-        "おまかせ",
-        "人感センサー",
-        "手動スイッチ",
-        "間接照明",
-      ],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "l6",
-      name: "階段・ホール",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "おまかせ", "人感センサー", "手動ｽｲｯﾁ"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "l2",
-      name: "リビング（複数選択可）",
-      type: "request",
-      status: ["未選択"],
-      options: ["未選択", "おまかせ", "間接照明", "調光", "調色", "リモコン"],
-      multiple: true,
-      note: "",
-    },
-    {
-      id: "l7",
-      name: "寝室（複数選択可）",
-      type: "request",
-      status: ["未選択"],
-      options: ["未選択", "おまかせ", "間接照明", "調光", "調色", "リモコン"],
-      multiple: true,
-      note: "",
-    },
-    {
-      id: "l8",
-      name: "居室・子供部屋（複数選択可）",
-      type: "request",
-      status: ["未選択"],
-      options: ["未選択", "おまかせ", "間接照明", "調光", "調色", "リモコン"],
-      multiple: true,
-      note: "",
-    },
+    { id: "l1", name: "玄関", type: "request", status: "未選択", options: ["未選択", "おまかせ", "人感センサー", "手動スイッチ", "間接照明"], multiple: false, note: "" },
+    { id: "l6", name: "階段・ホール", type: "request", status: "未選択", options: ["未選択", "おまかせ", "人感センサー", "手動ｽｲｯﾁ"], multiple: false, note: "" },
+    { id: "l2", name: "リビング（複数選択可）", type: "request", status: ["未選択"], options: ["未選択", "おまかせ", "間接照明", "調光", "調色", "リモコン"], multiple: true, note: "" },
+    { id: "l7", name: "寝室（複数選択可）", type: "request", status: ["未選択"], options: ["未選択", "おまかせ", "間接照明", "調光", "調色", "リモコン"], multiple: true, note: "" },
+    { id: "l8", name: "居室・子供部屋（複数選択可）", type: "request", status: ["未選択"], options: ["未選択", "おまかせ", "間接照明", "調光", "調色", "リモコン"], multiple: true, note: "" },
   ],
   "ｽｲｯﾁ・ｺﾝｾﾝﾄ": [
-    {
-      id: "c7",
-      name: "スイッチニッチ",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "希望", "不要"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "c1",
-      name: "ダイニング (ホットプレート等)",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "必要", "検討中", "不要"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "c2",
-      name: "ソファ脇 (スマホ充電等)",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "必要", "検討中", "不要"],
-      multiple: false,
-      note: "",
-    },
-    {
-      id: "c5",
-      name: "ベッド枕元 (スマホ充電・照明等)",
-      type: "request",
-      status: "未選択",
-      options: ["未選択", "必要", "検討中", "不要"],
-      multiple: false,
-      note: "",
-    },
+    { id: "c7", name: "スイッチニッチ", type: "request", status: "未選択", options: ["未選択", "希望", "不要"], multiple: false, note: "" },
+    { id: "c1", name: "ダイニング (ホットプレート等)", type: "request", status: "未選択", options: ["未選択", "必要", "検討中", "不要"], multiple: false, note: "" },
+    { id: "c2", name: "ソファ脇 (スマホ充電等)", type: "request", status: "未選択", options: ["未選択", "必要", "検討中", "不要"], multiple: false, note: "" },
+    { id: "c5", name: "ベッド枕元 (スマホ充電・照明等)", type: "request", status: "未選択", options: ["未選択", "必要", "検討中", "不要"], multiple: false, note: "" },
   ],
 };
 
+// 【追加機能】大きなスマホ写真を自動でリサイズ・軽量化する関数
+const compressImage = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 1280; // 品番や仕様が十分読める解像度
+        const MAX_HEIGHT = 1280;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // 画質80%のJPEGに変換（数MBの写真が約150〜300KBに軽量化されます）
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
 export default function PlanSheet() {
-  // セキュリティ（ログイン）用の状態
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -518,7 +147,6 @@ export default function PlanSheet() {
   const fileInputRefs = useRef({});
 
   useEffect(() => {
-    // ログイン済みかどうかもブラウザに保存する（毎回パスワードを打たせなくて済むように）
     const savedAuth = localStorage.getItem("earth_plan_auth");
     if (savedAuth === "true") setIsAuthenticated(true);
 
@@ -530,7 +158,6 @@ export default function PlanSheet() {
     if (savedStaff) setStaffName(savedStaff);
   }, []);
 
-  // ログイン処理
   const handleLogin = (e) => {
     e.preventDefault();
     if (passwordInput === APP_PASSWORD) {
@@ -581,9 +208,7 @@ export default function PlanSheet() {
         if (item.id !== itemId) return item;
         return {
           ...item,
-          hdmiDevices: item.hdmiDevices.map((h) =>
-            h.id === hdmiId ? { ...h, [field]: value } : h
-          ),
+          hdmiDevices: item.hdmiDevices.map((h) => (h.id === hdmiId ? { ...h, [field]: value } : h)),
         };
       }),
     }));
@@ -596,16 +221,7 @@ export default function PlanSheet() {
         if (item.id !== itemId) return item;
         return {
           ...item,
-          hdmiDevices: [
-            ...item.hdmiDevices,
-            {
-              id: `hdmi_${Date.now()}`,
-              name: "",
-              model: "",
-              image: null,
-              imageName: "",
-            },
-          ],
+          hdmiDevices: [...item.hdmiDevices, { id: `hdmi_${Date.now()}`, name: "", model: "", image: null, imageName: "" }],
         };
       }),
     }));
@@ -624,34 +240,29 @@ export default function PlanSheet() {
     }));
   };
 
-  const handleHdmiImage = (itemId, hdmiId, event) => {
+  // HDMI接続機器の画像アップロード（自動圧縮対応）
+  const handleHdmiImage = async (itemId, hdmiId, event) => {
     const file = event.target.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      setToastMessage(
-        "画像サイズが大きすぎます。5MB以下の画像を選択してください。"
-      );
-      setTimeout(() => setToastMessage(""), 4000);
-      return;
-    }
-    const reader = new FileReader();
-    reader.onloadend = () => {
+    try {
+      setToastMessage("画像を最適化しています...");
+      const compressedDataUrl = await compressImage(file);
+      const safeFileName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
       setData((prev) => ({
         ...prev,
         家電: prev["家電"].map((item) => {
           if (item.id !== itemId) return item;
           return {
             ...item,
-            hdmiDevices: item.hdmiDevices.map((h) =>
-              h.id === hdmiId
-                ? { ...h, image: reader.result, imageName: file.name }
-                : h
-            ),
+            hdmiDevices: item.hdmiDevices.map((h) => (h.id === hdmiId ? { ...h, image: compressedDataUrl, imageName: safeFileName } : h)),
           };
         }),
       }));
-    };
-    reader.readAsDataURL(file);
+      setToastMessage("");
+    } catch (err) {
+      setToastMessage("画像の読み込みに失敗しました。別の画像でお試しください。");
+      setTimeout(() => setToastMessage(""), 4000);
+    }
   };
 
   const addCustomItem = (category) => {
@@ -661,13 +272,7 @@ export default function PlanSheet() {
       type: category === "家電" ? "appliance" : "furniture",
       status: "未選択",
       options: defaultOptions,
-      w: "",
-      d: "",
-      h: "",
-      model: "",
-      note: "",
-      image: null,
-      imageName: "",
+      w: "", d: "", h: "", model: "", note: "", image: null, imageName: "",
       isCustom: true,
     };
     setData((prev) => ({
@@ -683,22 +288,21 @@ export default function PlanSheet() {
     }));
   };
 
-  const handleImageUpload = (category, id, event) => {
+  // 通常項目の画像アップロード（自動圧縮対応）
+  const handleImageUpload = async (category, id, event) => {
     const file = event.target.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      setToastMessage(
-        "画像サイズが大きすぎます。5MB以下の画像を選択してください。"
-      );
+    try {
+      setToastMessage("画像を最適化しています...");
+      const compressedDataUrl = await compressImage(file);
+      const safeFileName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+      updateField(category, id, "image", compressedDataUrl);
+      updateField(category, id, "imageName", safeFileName);
+      setToastMessage("");
+    } catch (err) {
+      setToastMessage("画像の読み込みに失敗しました。別の画像でお試しください。");
       setTimeout(() => setToastMessage(""), 4000);
-      return;
     }
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      updateField(category, id, "image", reader.result);
-      updateField(category, id, "imageName", file.name);
-    };
-    reader.readAsDataURL(file);
   };
 
   const removeImage = (category, id) => {
@@ -713,9 +317,7 @@ export default function PlanSheet() {
       localStorage.setItem("earth_plan_staff", staffName);
       setToastMessage("データを一時保存しました！");
     } catch (e) {
-      setToastMessage(
-        "保存に失敗しました。画像のサイズが大きい可能性があります。"
-      );
+      setToastMessage("保存容量の上限に達しました。直接「データを送信」をお試しください。");
     }
     setTimeout(() => setToastMessage(""), 4000);
   };
@@ -723,9 +325,7 @@ export default function PlanSheet() {
   const handleSubmit = async () => {
     if (!window.confirm("この内容でデータを送信しますか？")) return;
     setIsSubmitting(true);
-    setToastMessage(
-      "データを送信・画像をアップロード中...（数分かかる場合があります）"
-    );
+    setToastMessage("データを送信・画像をアップロード中...（数秒〜1分ほどかかります）");
 
     try {
       const formattedData = {};
@@ -733,38 +333,22 @@ export default function PlanSheet() {
         formattedData[key] = [];
         data[key].forEach((item) => {
           let finalNote = item.note || "";
-          const finalName =
-            item.isCustom && !item.name.trim()
-              ? "（名称未入力の追加項目）"
-              : item.name;
+          const finalName = item.isCustom && !item.name.trim() ? "（名称未入力の追加項目）" : item.name;
 
-          if (item.id === "n4" && item.wireType)
-            finalNote = `[接続方式: ${item.wireType}] ` + finalNote;
-          if (item.id === "s1" && item.dryerType)
-            finalNote = `[乾燥機タイプ: ${item.dryerType}] ` + finalNote;
-          if (
-            item.id === "e1" &&
-            item.broadcasts &&
-            item.broadcasts.length > 0
-          ) {
-            finalNote =
-              `[視聴放送: ${item.broadcasts.join(" / ")}] ` + finalNote;
+          if (item.id === "n4" && item.wireType) finalNote = `[接続方式: ${item.wireType}] ` + finalNote;
+          if (item.id === "s1" && item.dryerType) finalNote = `[乾燥機タイプ: ${item.dryerType}] ` + finalNote;
+          if (item.id === "e1" && item.broadcasts && item.broadcasts.length > 0) {
+            finalNote = `[視聴放送: ${item.broadcasts.join(" / ")}] ` + finalNote;
           }
 
           formattedData[key].push({
             ...item,
             name: finalName,
-            status: Array.isArray(item.status)
-              ? item.status.join(" / ")
-              : item.status,
+            status: Array.isArray(item.status) ? item.status.join(" / ") : item.status,
             note: finalNote,
           });
 
-          if (
-            item.id === "e1" &&
-            item.hdmiDevices &&
-            item.hdmiDevices.length > 0
-          ) {
+          if (item.id === "e1" && item.hdmiDevices && item.hdmiDevices.length > 0) {
             item.hdmiDevices.forEach((hdmi) => {
               if (hdmi.name.trim() || hdmi.model.trim() || hdmi.image) {
                 formattedData[key].push({
@@ -772,9 +356,7 @@ export default function PlanSheet() {
                   name: ` └ [TV接続] ${hdmi.name || "名称未定"}`,
                   type: "appliance",
                   status: "付帯機器",
-                  w: "",
-                  d: "",
-                  h: "",
+                  w: "", d: "", h: "",
                   model: hdmi.model || "",
                   note: "",
                   image: hdmi.image,
@@ -786,12 +368,11 @@ export default function PlanSheet() {
         });
       }
 
-      // 【セキュリティ】スパム防止用の鍵を一緒に送信する
-      const payload = {
-        customerName,
-        staffName,
+      const payload = { 
+        customerName, 
+        staffName, 
         data: formattedData,
-        secretToken: SECRET_TOKEN,
+        secretToken: SECRET_TOKEN 
       };
 
       await fetch(GAS_WEB_APP_URL, {
@@ -800,38 +381,27 @@ export default function PlanSheet() {
         body: JSON.stringify(payload),
       });
 
-      setToastMessage(
-        "送信完了！担当者へ通知し、画像を共有フォルダに保存しました。"
-      );
+      setToastMessage("送信完了！担当者へ通知し、画像を共有フォルダに保存しました。");
       localStorage.removeItem("earth_plan_data");
     } catch (e) {
       console.error(e);
-      setToastMessage(
-        "通信エラーが発生しました。電波の良いところで再度お試しください。"
-      );
+      setToastMessage("通信エラーが発生しました。電波の良いところで再度お試しください。");
     } finally {
       setIsSubmitting(false);
       setTimeout(() => setToastMessage(""), 6000);
     }
   };
 
-  // ーーーーーーーーーーーーーーーーーーーーーーーー
-  // 認証前（未ログイン）のパスワード画面
-  // ーーーーーーーーーーーーーーーーーーーーーーーー
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#F9F8F6] text-[#4A4A4A] font-sans flex flex-col items-center justify-center p-4">
         <div className="bg-white p-8 rounded-2xl shadow-sm border border-[#E5E5E5] w-full max-w-sm text-center">
           <Lock className="mx-auto text-[#8C867B] mb-4" size={32} />
           <h1 className="text-lg tracking-widest text-[#8C867B] font-bold mb-6">
-            EARTH INC.
-            <br />
-            PLAN SHEET
+            EARTH INC.<br/>PLAN SHEET
           </h1>
           <p className="text-sm text-gray-500 mb-6">
-            担当者からお伝えした
-            <br />
-            合言葉を入力してください
+            担当者からお伝えした<br/>合言葉を入力してください
           </p>
           <form onSubmit={handleLogin}>
             <input
@@ -841,9 +411,7 @@ export default function PlanSheet() {
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
             />
-            {loginError && (
-              <p className="text-red-500 text-sm mb-4">{loginError}</p>
-            )}
+            {loginError && <p className="text-red-500 text-sm mb-4">{loginError}</p>}
             <button
               type="submit"
               className="w-full bg-[#8C867B] text-white py-3 rounded-xl font-bold shadow-md hover:bg-[#7a746a] transition-colors mt-2"
@@ -856,9 +424,6 @@ export default function PlanSheet() {
     );
   }
 
-  // ーーーーーーーーーーーーーーーーーーーーーーーー
-  // 認証後（ログイン済み）のメインアプリ画面
-  // ーーーーーーーーーーーーーーーーーーーーーーーー
   return (
     <div className="min-h-screen bg-[#F9F8F6] text-[#4A4A4A] font-sans pb-28 relative">
       {toastMessage && (
@@ -868,46 +433,22 @@ export default function PlanSheet() {
       )}
 
       <header className="bg-white p-4 shadow-sm text-center sticky top-0 z-40">
-        <h1 className="text-sm tracking-widest text-[#8C867B] mb-2 font-bold">
-          EARTH INC. PLAN SHEET
-        </h1>
+        <h1 className="text-sm tracking-widest text-[#8C867B] mb-2 font-bold">EARTH INC. PLAN SHEET</h1>
         <div className="mb-3 text-xs text-gray-500 flex justify-center items-center gap-2">
           担当者：
-          <select
-            className="border rounded p-1 bg-gray-50 outline-none"
-            value={staffName}
-            onChange={(e) => setStaffName(e.target.value)}
-          >
-            {STAFF_LIST.map((staff) => (
-              <option key={staff} value={staff}>
-                {staff}
-              </option>
-            ))}
+          <select className="border rounded p-1 bg-gray-50 outline-none" value={staffName} onChange={(e) => setStaffName(e.target.value)}>
+            {STAFF_LIST.map((staff) => <option key={staff} value={staff}>{staff}</option>)}
           </select>
         </div>
         <div className="flex justify-center items-end gap-2">
-          <input
-            type="text"
-            className="border-b-2 border-[#DCD9D4] bg-transparent text-xl text-center focus:outline-none focus:border-[#8C867B] w-48"
-            placeholder="お名前"
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-          />
+          <input type="text" className="border-b-2 border-[#DCD9D4] bg-transparent text-xl text-center focus:outline-none focus:border-[#8C867B] w-48" placeholder="お名前" value={customerName} onChange={(e) => setCustomerName(e.target.value)} />
           <span className="text-lg">様邸</span>
         </div>
       </header>
 
       <div className="overflow-x-auto bg-white border-b border-[#E5E5E5] sticky top-[95px] z-30 flex whitespace-nowrap px-2 scrollbar-hide">
         {TABS.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-3 text-sm font-medium transition-colors ${
-              activeTab === tab
-                ? "border-b-2 border-[#8C867B] text-[#8C867B]"
-                : "text-gray-400"
-            }`}
-          >
+          <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-3 text-sm font-medium transition-colors ${activeTab === tab ? "border-b-2 border-[#8C867B] text-[#8C867B]" : "text-gray-400"}`}>
             {tab}
           </button>
         ))}
@@ -915,38 +456,16 @@ export default function PlanSheet() {
 
       <div className="p-4 max-w-2xl mx-auto space-y-4">
         {data[activeTab].map((item) => {
-          const isUnselected = item.multiple
-            ? item.status.includes("未選択")
-            : item.status === "未選択";
-          const isUnnecessary = item.multiple
-            ? false
-            : ["不要", "導入なし"].includes(item.status);
+          const isUnselected = item.multiple ? item.status.includes("未選択") : item.status === "未選択";
+          const isUnnecessary = item.multiple ? false : ["不要", "導入なし"].includes(item.status);
           const showDetails = !isUnselected && !isUnnecessary;
 
           return (
-            <div
-              key={item.id}
-              className={`bg-white rounded-xl p-4 shadow-sm transition-all border border-[#F0EFEF] ${
-                isUnnecessary ? "opacity-50 bg-gray-50" : ""
-              }`}
-            >
+            <div key={item.id} className={`bg-white rounded-xl p-4 shadow-sm transition-all border border-[#F0EFEF] ${isUnnecessary ? "opacity-50 bg-gray-50" : ""}`}>
               {item.isCustom ? (
                 <div className="flex justify-between items-center mb-3 border-b pb-2">
-                  <input
-                    type="text"
-                    placeholder="機器名を入力 (例: ワインセラー)"
-                    className="font-bold text-lg border-b border-transparent focus:border-[#8C867B] outline-none w-2/3 bg-transparent p-1"
-                    value={item.name}
-                    onChange={(e) =>
-                      updateField(activeTab, item.id, "name", e.target.value)
-                    }
-                  />
-                  <button
-                    onClick={() => removeCustomItem(activeTab, item.id)}
-                    className="text-red-400 text-sm flex items-center gap-1"
-                  >
-                    <Trash2 size={16} /> 削除
-                  </button>
+                  <input type="text" placeholder="機器名を入力 (例: ワインセラー)" className="font-bold text-lg border-b border-transparent focus:border-[#8C867B] outline-none w-2/3 bg-transparent p-1" value={item.name} onChange={(e) => updateField(activeTab, item.id, "name", e.target.value)} />
+                  <button onClick={() => removeCustomItem(activeTab, item.id)} className="text-red-400 text-sm flex items-center gap-1"><Trash2 size={16} /> 削除</button>
                 </div>
               ) : (
                 <h3 className="font-bold text-lg mb-3">{item.name}</h3>
@@ -955,36 +474,11 @@ export default function PlanSheet() {
               <div className="flex flex-wrap gap-x-4 gap-y-3 mb-2">
                 {item.options.map((opt) => {
                   if (item.type === "request" && opt === "持込") return null;
-                  const isChecked = item.multiple
-                    ? item.status.includes(opt)
-                    : item.status === opt;
+                  const isChecked = item.multiple ? item.status.includes(opt) : item.status === opt;
                   return (
-                    <label
-                      key={opt}
-                      className="flex items-center gap-1 cursor-pointer"
-                    >
-                      <input
-                        type={item.multiple ? "checkbox" : "radio"}
-                        name={
-                          item.multiple
-                            ? `status-${item.id}-${opt}`
-                            : `status-${item.id}`
-                        }
-                        className="accent-[#8C867B] w-4 h-4"
-                        checked={isChecked}
-                        onChange={() =>
-                          updateStatus(activeTab, item.id, opt, item.multiple)
-                        }
-                      />
-                      <span
-                        className={`text-sm ${
-                          isChecked
-                            ? "font-bold text-[#8C867B]"
-                            : "text-gray-500"
-                        }`}
-                      >
-                        {opt}
-                      </span>
+                    <label key={opt} className="flex items-center gap-1 cursor-pointer">
+                      <input type={item.multiple ? "checkbox" : "radio"} name={item.multiple ? `status-${item.id}-${opt}` : `status-${item.id}`} className="accent-[#8C867B] w-4 h-4" checked={isChecked} onChange={() => updateStatus(activeTab, item.id, opt, item.multiple)} />
+                      <span className={`text-sm ${isChecked ? "font-bold text-[#8C867B]" : "text-gray-500"}`}>{opt}</span>
                     </label>
                   );
                 })}
@@ -992,32 +486,11 @@ export default function PlanSheet() {
 
               {item.id === "n4" && !isUnselected && !isUnnecessary && (
                 <div className="flex gap-4 mt-3 mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <span className="text-sm font-bold text-gray-700">
-                    接続方式:
-                  </span>
+                  <span className="text-sm font-bold text-gray-700">接続方式:</span>
                   {["未定", "無線", "有線"].map((wire) => (
-                    <label
-                      key={wire}
-                      className="flex items-center gap-1 cursor-pointer"
-                    >
-                      <input
-                        type="radio"
-                        name={`wire-${item.id}`}
-                        className="accent-[#8C867B] w-4 h-4"
-                        checked={item.wireType === wire}
-                        onChange={() =>
-                          updateField(activeTab, item.id, "wireType", wire)
-                        }
-                      />
-                      <span
-                        className={`text-sm ${
-                          item.wireType === wire
-                            ? "font-bold text-[#8C867B]"
-                            : "text-gray-500"
-                        }`}
-                      >
-                        {wire}
-                      </span>
+                    <label key={wire} className="flex items-center gap-1 cursor-pointer">
+                      <input type="radio" name={`wire-${item.id}`} className="accent-[#8C867B] w-4 h-4" checked={item.wireType === wire} onChange={() => updateField(activeTab, item.id, "wireType", wire)} />
+                      <span className={`text-sm ${item.wireType === wire ? "font-bold text-[#8C867B]" : "text-gray-500"}`}>{wire}</span>
                     </label>
                   ))}
                 </div>
@@ -1025,32 +498,11 @@ export default function PlanSheet() {
 
               {item.id === "s1" && !isUnselected && !isUnnecessary && (
                 <div className="flex flex-wrap gap-4 mt-3 mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <span className="text-sm font-bold text-gray-700">
-                    タイプ:
-                  </span>
+                  <span className="text-sm font-bold text-gray-700">タイプ:</span>
                   {["未定", "ガス式", "電気式"].map((dType) => (
-                    <label
-                      key={dType}
-                      className="flex items-center gap-1 cursor-pointer"
-                    >
-                      <input
-                        type="radio"
-                        name={`dryer-${item.id}`}
-                        className="accent-[#8C867B] w-4 h-4"
-                        checked={item.dryerType === dType}
-                        onChange={() =>
-                          updateField(activeTab, item.id, "dryerType", dType)
-                        }
-                      />
-                      <span
-                        className={`text-sm ${
-                          item.dryerType === dType
-                            ? "font-bold text-[#8C867B]"
-                            : "text-gray-500"
-                        }`}
-                      >
-                        {dType}
-                      </span>
+                    <label key={dType} className="flex items-center gap-1 cursor-pointer">
+                      <input type="radio" name={`dryer-${item.id}`} className="accent-[#8C867B] w-4 h-4" checked={item.dryerType === dType} onChange={() => updateField(activeTab, item.id, "dryerType", dType)} />
+                      <span className={`text-sm ${item.dryerType === dType ? "font-bold text-[#8C867B]" : "text-gray-500"}`}>{dType}</span>
                     </label>
                   ))}
                 </div>
@@ -1058,241 +510,80 @@ export default function PlanSheet() {
 
               {item.id === "e1" && !isUnselected && !isUnnecessary && (
                 <div className="flex flex-wrap gap-4 mt-3 mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                  <span className="text-sm font-bold text-gray-700">
-                    視聴放送:
-                  </span>
+                  <span className="text-sm font-bold text-gray-700">視聴放送:</span>
                   {["地上", "BS", "CS"].map((bType) => {
                     const isChecked = item.broadcasts?.includes(bType);
                     return (
-                      <label
-                        key={bType}
-                        className="flex items-center gap-1 cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          className="accent-[#8C867B] w-4 h-4"
-                          checked={isChecked}
-                          onChange={(e) => {
+                      <label key={bType} className="flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" className="accent-[#8C867B] w-4 h-4" checked={isChecked} onChange={(e) => {
                             const current = item.broadcasts || [];
-                            const next = e.target.checked
-                              ? [...current, bType]
-                              : current.filter((b) => b !== bType);
+                            const next = e.target.checked ? [...current, bType] : current.filter((b) => b !== bType);
                             updateField(activeTab, item.id, "broadcasts", next);
-                          }}
-                        />
-                        <span
-                          className={`text-sm ${
-                            isChecked
-                              ? "font-bold text-[#8C867B]"
-                              : "text-gray-500"
-                          }`}
-                        >
-                          {bType}
-                        </span>
+                          }} />
+                        <span className={`text-sm ${isChecked ? "font-bold text-[#8C867B]" : "text-gray-500"}`}>{bType}</span>
                       </label>
                     );
                   })}
                 </div>
               )}
 
-              <div
-                className={`transition-all duration-300 overflow-hidden ${
-                  showDetails
-                    ? "max-h-fit opacity-100 mt-4"
-                    : "max-h-0 opacity-0"
-                }`}
-              >
+              <div className={`transition-all duration-300 overflow-hidden ${showDetails ? "max-h-fit opacity-100 mt-4" : "max-h-0 opacity-0"}`}>
                 {(item.type === "appliance" || item.type === "furniture") && (
                   <div className="space-y-3 mb-3 bg-[#FBFBFB] p-3 rounded-lg border border-gray-100">
                     <div className="flex gap-2">
-                      <input
-                        type="number"
-                        placeholder="幅(W)mm"
-                        className="w-1/3 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]"
-                        value={item.w}
-                        onChange={(e) =>
-                          updateField(activeTab, item.id, "w", e.target.value)
-                        }
-                      />
-                      <input
-                        type="number"
-                        placeholder="奥行(D)mm"
-                        className="w-1/3 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]"
-                        value={item.d}
-                        onChange={(e) =>
-                          updateField(activeTab, item.id, "d", e.target.value)
-                        }
-                      />
-                      <input
-                        type="number"
-                        placeholder="高さ(H)mm"
-                        className="w-1/3 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]"
-                        value={item.h}
-                        onChange={(e) =>
-                          updateField(activeTab, item.id, "h", e.target.value)
-                        }
-                      />
+                      <input type="number" placeholder="幅(W)mm" className="w-1/3 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]" value={item.w} onChange={(e) => updateField(activeTab, item.id, "w", e.target.value)} />
+                      <input type="number" placeholder="奥行(D)mm" className="w-1/3 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]" value={item.d} onChange={(e) => updateField(activeTab, item.id, "d", e.target.value)} />
+                      <input type="number" placeholder="高さ(H)mm" className="w-1/3 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]" value={item.h} onChange={(e) => updateField(activeTab, item.id, "h", e.target.value)} />
                     </div>
 
                     <div className="flex gap-2 items-center">
                       {item.type === "appliance" && (
-                        <input
-                          type="text"
-                          placeholder="品番 (任意)"
-                          className="flex-1 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]"
-                          value={item.model}
-                          onChange={(e) =>
-                            updateField(
-                              activeTab,
-                              item.id,
-                              "model",
-                              e.target.value
-                            )
-                          }
-                        />
+                        <input type="text" placeholder="品番 (任意)" className="flex-1 border rounded p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B]" value={item.model} onChange={(e) => updateField(activeTab, item.id, "model", e.target.value)} />
                       )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        ref={(el) => (fileInputRefs.current[item.id] = el)}
-                        onChange={(e) =>
-                          handleImageUpload(activeTab, item.id, e)
-                        }
-                      />
-                      <button
-                        onClick={() => fileInputRefs.current[item.id].click()}
-                        className={`flex-1 p-2 rounded border text-sm transition-colors flex items-center justify-center gap-1 ${
-                          item.image
-                            ? "bg-[#F2F0EB] text-[#8C867B] border-[#8C867B]"
-                            : "bg-white text-gray-500 hover:bg-gray-50"
-                        }`}
-                      >
-                        <Camera size={16} />{" "}
-                        {item.image ? "画像変更" : "写真・スクショを添付"}
+                      <input type="file" accept="image/*" className="hidden" ref={(el) => (fileInputRefs.current[item.id] = el)} onChange={(e) => handleImageUpload(activeTab, item.id, e)} />
+                      <button onClick={() => fileInputRefs.current[item.id].click()} className={`flex-1 p-2 rounded border text-sm transition-colors flex items-center justify-center gap-1 ${item.image ? "bg-[#F2F0EB] text-[#8C867B] border-[#8C867B]" : "bg-white text-gray-500 hover:bg-gray-50"}`}>
+                        <Camera size={16} /> {item.image ? "画像変更" : "写真・スクショを添付"}
                       </button>
                     </div>
 
                     {item.image && (
                       <div className="relative inline-block mt-2">
-                        <img
-                          src={item.image}
-                          alt="添付プレビュー"
-                          className="h-20 w-auto rounded border shadow-sm"
-                        />
-                        <button
-                          onClick={() => removeImage(activeTab, item.id)}
-                          className="absolute -top-2 -right-2 bg-gray-500 text-white rounded-full p-1 shadow hover:bg-gray-600"
-                        >
-                          <X size={12} />
-                        </button>
+                        <img src={item.image} alt="添付プレビュー" className="h-20 w-auto rounded border shadow-sm" />
+                        <button onClick={() => removeImage(activeTab, item.id)} className="absolute -top-2 -right-2 bg-gray-500 text-white rounded-full p-1 shadow hover:bg-gray-600"><X size={12} /></button>
                       </div>
                     )}
                   </div>
                 )}
 
-                <textarea
-                  placeholder="特記事項・ご要望・品番等をご記入ください"
-                  className="w-full border rounded-lg p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B] h-20"
-                  value={item.note}
-                  onChange={(e) =>
-                    updateField(activeTab, item.id, "note", e.target.value)
-                  }
-                />
-
+                <textarea placeholder="特記事項・ご要望・品番等をご記入ください" className="w-full border rounded-lg p-2 text-sm bg-white focus:outline-none focus:border-[#8C867B] h-20" value={item.note} onChange={(e) => updateField(activeTab, item.id, "note", e.target.value)} />
+                
                 {item.id === "e1" && (
                   <div className="mt-4 border-t border-gray-200 pt-4">
-                    <h4 className="text-sm font-bold text-[#8C867B] mb-3">
-                      HDMI接続機器 (レコーダー・ゲーム機など)
-                    </h4>
+                    <h4 className="text-sm font-bold text-[#8C867B] mb-3">HDMI接続機器 (レコーダー・ゲーム機など)</h4>
                     {item.hdmiDevices?.map((hdmi) => (
-                      <div
-                        key={hdmi.id}
-                        className="flex flex-col gap-2 mb-3 bg-[#FBFBFB] p-3 rounded border border-[#E5E5E5]"
-                      >
+                      <div key={hdmi.id} className="flex flex-col gap-2 mb-3 bg-[#FBFBFB] p-3 rounded border border-[#E5E5E5]">
                         <div className="flex gap-2">
-                          <input
-                            type="text"
-                            placeholder="機器名 (例: レコーダー)"
-                            className="flex-1 border rounded p-2 text-sm focus:border-[#8C867B] outline-none"
-                            value={hdmi.name}
-                            onChange={(e) =>
-                              updateHdmi(
-                                item.id,
-                                hdmi.id,
-                                "name",
-                                e.target.value
-                              )
-                            }
-                          />
-                          <input
-                            type="text"
-                            placeholder="品番(任意)"
-                            className="flex-1 border rounded p-2 text-sm focus:border-[#8C867B] outline-none"
-                            value={hdmi.model}
-                            onChange={(e) =>
-                              updateHdmi(
-                                item.id,
-                                hdmi.id,
-                                "model",
-                                e.target.value
-                              )
-                            }
-                          />
+                          <input type="text" placeholder="機器名 (例: レコーダー)" className="flex-1 border rounded p-2 text-sm focus:border-[#8C867B] outline-none" value={hdmi.name} onChange={(e) => updateHdmi(item.id, hdmi.id, "name", e.target.value)} />
+                          <input type="text" placeholder="品番(任意)" className="flex-1 border rounded p-2 text-sm focus:border-[#8C867B] outline-none" value={hdmi.model} onChange={(e) => updateHdmi(item.id, hdmi.id, "model", e.target.value)} />
                         </div>
                         <div className="flex gap-2 items-center mt-1">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            ref={(el) => (fileInputRefs.current[hdmi.id] = el)}
-                            onChange={(e) =>
-                              handleHdmiImage(item.id, hdmi.id, e)
-                            }
-                          />
-                          <button
-                            onClick={() =>
-                              fileInputRefs.current[hdmi.id].click()
-                            }
-                            className={`flex-[4] p-2 rounded border text-sm transition-colors flex items-center justify-center gap-1 ${
-                              hdmi.image
-                                ? "bg-[#F2F0EB] text-[#8C867B] border-[#8C867B]"
-                                : "bg-white text-gray-500 hover:bg-gray-50"
-                            }`}
-                          >
-                            <Camera size={16} />{" "}
-                            {hdmi.image ? "画像変更" : "写真・スクショ添付"}
+                          <input type="file" accept="image/*" className="hidden" ref={(el) => (fileInputRefs.current[hdmi.id] = el)} onChange={(e) => handleHdmiImage(item.id, hdmi.id, e)} />
+                          <button onClick={() => fileInputRefs.current[hdmi.id].click()} className={`flex-[4] p-2 rounded border text-sm transition-colors flex items-center justify-center gap-1 ${hdmi.image ? "bg-[#F2F0EB] text-[#8C867B] border-[#8C867B]" : "bg-white text-gray-500 hover:bg-gray-50"}`}>
+                            <Camera size={16} /> {hdmi.image ? "画像変更" : "写真・スクショ添付"}
                           </button>
-                          <button
-                            onClick={() => removeHdmi(item.id, hdmi.id)}
-                            className="flex-[1] p-2 text-red-400 border rounded bg-white hover:bg-red-50 flex items-center justify-center"
-                          >
+                          <button onClick={() => removeHdmi(item.id, hdmi.id)} className="flex-[1] p-2 text-red-400 border rounded bg-white hover:bg-red-50 flex items-center justify-center">
                             <Trash2 size={16} />
                           </button>
                         </div>
                         {hdmi.image && (
                           <div className="relative inline-block mt-2">
-                            <img
-                              src={hdmi.image}
-                              alt="プレビュー"
-                              className="h-20 w-auto rounded border shadow-sm"
-                            />
-                            <button
-                              onClick={() =>
-                                updateHdmi(item.id, hdmi.id, "image", null)
-                              }
-                              className="absolute -top-2 -right-2 bg-gray-500 text-white rounded-full p-1 shadow hover:bg-gray-600"
-                            >
-                              <X size={12} />
-                            </button>
+                            <img src={hdmi.image} alt="プレビュー" className="h-20 w-auto rounded border shadow-sm" />
+                            <button onClick={() => updateHdmi(item.id, hdmi.id, "image", null)} className="absolute -top-2 -right-2 bg-gray-500 text-white rounded-full p-1 shadow hover:bg-gray-600"><X size={12} /></button>
                           </div>
                         )}
                       </div>
                     ))}
-                    <button
-                      onClick={() => addHdmi(item.id)}
-                      className="w-full border border-dashed border-[#8C867B] text-[#8C867B] p-3 rounded-lg text-sm flex items-center justify-center gap-1 mt-2 hover:bg-gray-50 transition-colors"
-                    >
+                    <button onClick={() => addHdmi(item.id)} className="w-full border border-dashed border-[#8C867B] text-[#8C867B] p-3 rounded-lg text-sm flex items-center justify-center gap-1 mt-2 hover:bg-gray-50 transition-colors">
                       <Plus size={16} /> 接続機器を追加する
                     </button>
                   </div>
@@ -1303,28 +594,17 @@ export default function PlanSheet() {
         })}
 
         {(activeTab === "家電" || activeTab === "家具") && (
-          <button
-            onClick={() => addCustomItem(activeTab)}
-            className="w-full border-2 border-dashed border-[#DCD9D4] text-[#8C867B] p-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors mt-4"
-          >
+          <button onClick={() => addCustomItem(activeTab)} className="w-full border-2 border-dashed border-[#DCD9D4] text-[#8C867B] p-4 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors mt-4">
             <Plus size={20} /> 項目を追加する
           </button>
         )}
       </div>
 
       <div className="fixed bottom-0 left-0 w-full bg-white border-t p-3 flex gap-3 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.05)] z-50">
-        <button
-          onClick={handleSave}
-          disabled={isSubmitting}
-          className="flex-1 border border-[#8C867B] text-[#8C867B] py-3 rounded-lg flex items-center justify-center gap-2 font-bold bg-white hover:bg-gray-50 transition-colors disabled:opacity-50"
-        >
+        <button onClick={handleSave} disabled={isSubmitting} className="flex-1 border border-[#8C867B] text-[#8C867B] py-3 rounded-lg flex items-center justify-center gap-2 font-bold bg-white hover:bg-gray-50 transition-colors disabled:opacity-50">
           <Save size={18} /> 一時保存
         </button>
-        <button
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          className="flex-[2] bg-[#8C867B] text-white py-3 rounded-lg flex items-center justify-center gap-2 font-bold shadow-md hover:bg-[#7a746a] transition-colors disabled:opacity-50"
-        >
+        <button onClick={handleSubmit} disabled={isSubmitting} className="flex-[2] bg-[#8C867B] text-white py-3 rounded-lg flex items-center justify-center gap-2 font-bold shadow-md hover:bg-[#7a746a] transition-colors disabled:opacity-50">
           <Send size={18} /> {isSubmitting ? "送信中..." : "データを送信"}
         </button>
       </div>
